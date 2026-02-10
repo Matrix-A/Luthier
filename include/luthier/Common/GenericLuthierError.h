@@ -1,12 +1,9 @@
 //===-- GenericLuthierError.h -----------------------------------*- C++ -*-===//
+// GenericLuthierError 通用错误类头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +14,7 @@
 /// \file
 /// Describes <tt>GenericLuthierError</tt>, which represents generic Luthier
 /// errors not related third-party libraries used by Luthier.
+/// 描述 <tt>GenericLuthierError</tt>，它表示与 Luthier 使用的第三方库无关的通用 Luthier 错误
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_COMMON_GENERIC_LUTHIER_ERROR_H
 #define LUTHIER_COMMON_GENERIC_LUTHIER_ERROR_H
@@ -27,6 +25,7 @@ namespace luthier {
 
 /// \brief Error used to indicate generic issues encountered in Luthier code not
 /// related to any other library
+/// 用于指示 Luthier 代码中遇到的与任何其他库无关的通用问题的错误
 class GenericLuthierError final : public LuthierError {
 
 public:

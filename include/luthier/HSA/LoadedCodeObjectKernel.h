@@ -13,8 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //===----------------------------------------------------------------------===//
-///
+//
 /// \file
+/// \brief 本文件在 \c luthier::hsa 命名空间下定义了 \c LoadedCodeObjectKernel，
+/// 它表示 \c hsa::LoadedCodeObject 内部的所有内核。
 /// This file defines the \c LoadedCodeObjectKernel under the \c luthier::hsa
 /// namespace, which represents all kernels inside a \c hsa::LoadedCodeObject.
 //===----------------------------------------------------------------------===//
@@ -27,18 +29,28 @@ namespace luthier::hsa {
 
 class KernelDescriptor;
 
+/// \brief 类型为 \c LoadedCodeObjectSymbol::ST_KERNEL 的 \c LoadedCodeObjectSymbol
 /// \brief a \c LoadedCodeObjectSymbol of type
 /// \c LoadedCodeObjectSymbol::ST_KERNEL
 class LoadedCodeObjectKernel final : public LoadedCodeObjectSymbol {
 
 private:
+  /// 内核描述符符号的引用
+  /// 原始 \c Symbol 将保存内核函数的符号
   /// A reference to the Kernel descriptor symbol of the kernel
   /// The original \c Symbol will hold the kernel function's symbol
   const llvm::object::ELFSymbolRef KDSymbol;
 
+  /// 内核元数据
   /// The Kernel metadata
   std::unique_ptr<amdgpu::hsamd::Kernel::Metadata> MD;
 
+  /// 构造函数
+  /// \param LCO 符号所属的 \c hsa_loaded_code_object_t
+  /// \param KFuncSymbol 内核的函数符号，由 Luthier 内部缓存
+  /// \param KDSymbol 内核的描述符符号，由 Luthier 内部缓存
+  /// \param Metadata 内核的元数据，由 Luthier 内部缓存
+  /// \param ExecutableSymbol 内核的 \c hsa_executable_symbol_t 等效项
   /// Constructor
   /// \param LCO the \c hsa_loaded_code_object_t this symbol belongs to
   /// \param KFuncSymbol the function symbol of the kernel, cached internally
@@ -59,6 +71,13 @@ private:
         KDSymbol(KDSymbol), MD(std::move(MD)) {}
 
 public:
+  /// Luthier 内部使用的工厂方法
+  /// 使用此方法创建的符号将被缓存，当查询时将返回给工具编写者的引用
+  /// \param LCO \c hsa_loaded_code_object_t 包装器句柄，仅在 Luthier 内部可访问
+  /// \param KFuncSymbol 内核的函数符号，由 Luthier 内部缓存
+  /// \param KDSymbol 内核的描述符符号，由 Luthier 内部缓存
+  /// \param Metadata 内核的元数据，由 Luthier 内部缓存
+  /// \return 成功时返回
   /// Factory method used internally by Luthier
   /// Symbols created using this method will be cached, and a reference to them
   /// will be returned to the tool writer when queried
@@ -86,17 +105,20 @@ public:
         std::make_unique<amdgpu::hsamd::Kernel::Metadata>(*this->MD)));
   }
 
+  /// \return 内核在加载到的 Agent 上的 \c hsa::KernelDescriptor 指针
   /// \return a pointer to the \c hsa::KernelDescriptor of the kernel on the
   /// agent it is loaded on
   [[nodiscard]] llvm::Expected<const KernelDescriptor *> getKernelDescriptor(
       const ApiTableContainer<::CoreApiTable> &CoreApiTable) const;
 
+  /// \return 内核的解析后的 \c hsa::md::Kernel::Metadata
   /// \return the parsed \c hsa::md::Kernel::Metadata of the kernel
   [[nodiscard]] const amdgpu::hsamd::Kernel::Metadata &
   getKernelMetadata() const {
     return *MD;
   }
 
+  /// 提供 LLVM RTTI 的方法
   /// method for providing LLVM RTTI
   __attribute__((used)) static bool classof(const LoadedCodeObjectSymbol *S) {
     return S->getType() == SK_KERNEL;

@@ -1,12 +1,9 @@
 //===-- HsaPacketMonitor.h --------------------------------------*- C++ -*-===//
+// PacketMonitor.h HSA 数据包监视器头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +15,8 @@
 /// Describes the \c PacketMonitor interface and its instance singleton, in
 /// charge of monitoring packets submitted to all devices at runtime, modifying
 /// them, and providing event handlers to wait on packet's doorbells.
+/// 描述 \c PacketMonitor 接口及其单例实例，负责在运行时监控提交到所有设备的数据包，
+/// 修改它们，并提供事件处理程序以等待数据包的门铃
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_PACKET_MONITOR_H
 #define LUTHIER_HSA_PACKET_MONITOR_H

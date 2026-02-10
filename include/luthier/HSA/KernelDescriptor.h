@@ -1,12 +1,9 @@
 //===-- KernelDescriptor.h - HSA Kernel Descriptor POD Wrapper --*- C++ -*-===//
+// KernelDescriptor.h HSA 内核描述符 POD 包装器头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +14,7 @@
 /// \file
 /// This file describes the HSA kernel descriptor, a POD struct in addition to
 /// some convenience methods.
+/// 此文件描述 HSA 内核描述符，一个 POD 结构体以及一些便捷方法
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_KERNEL_DESCRIPTOR_H
 #define LUTHIER_HSA_KERNEL_DESCRIPTOR_H
@@ -38,6 +36,8 @@ class LoadedCodeObjectKernel;
 /// \endcode
 /// \warning Kernel descriptors in a \c hsa_loaded_code_object_t should never
 /// be modified using this struct (both on host or device memory)
+/// POD（纯数据）结构体，提供内核描述符的抽象以及一些便捷方法
+/// 要检查内核描述符的内容，只需在其地址上使用 <tt>reinterpret_cast</tt>
 struct KernelDescriptor {
   uint32_t GroupSegmentFixedSize;
   uint32_t PrivateSegmentFixedSize;
@@ -54,6 +54,7 @@ struct KernelDescriptor {
 
   /// a struct for easier access to the RSRC1 register without using individual
   /// bit-wise operations
+  /// 用于更轻松访问 RSRC1 寄存器的结构体，无需使用单独的位操作
   typedef struct {
     uint32_t GranulatedWorkItemVGPRCount;
     uint32_t GranulatedWaveFrontSGPRCount;
@@ -73,6 +74,7 @@ struct KernelDescriptor {
 
   /// a struct for easier access to the RSRC2 register without using individual
   /// bit-wise operations
+  /// 用于更轻松访问 RSRC2 寄存器的结构体，无需使用单独的位操作
   typedef struct {
     uint32_t UserSgprCount;
     uint32_t EnableTrapHandler;
@@ -97,6 +99,7 @@ struct KernelDescriptor {
 
   /// a struct for easier access to the kernel code properties register without
   /// using individual bit-wise operations
+  /// 用于更轻松访问内核代码属性寄存器的结构体，无需使用单独的位操作
   typedef struct {
     uint32_t EnableSgprPrivateSegmentBuffer;
     uint32_t EnableSgprDispatchPtr;
@@ -119,6 +122,7 @@ struct KernelDescriptor {
   } KernelCodePropertiesInfo;
 
   /// \return parsed Rsrc1 register into the more accessible \c Rsrc1Info format
+  /// 将解析后的 Rsrc1 寄存器返回为更易访问的 \c Rsrc1Info 格式
   [[nodiscard]] Rsrc1Info getRsrc1() const;
 
   /// \return parsed Rsrc2 register into the more accessible \c Rsrc2Info format
@@ -130,6 +134,7 @@ struct KernelDescriptor {
 
   /// \return the entrypoint of the kernel machine code i.e. the address of the
   /// first instruction of the kernel
+  /// 返回内核机器代码的入口点，即内核第一条指令的地址
   [[nodiscard]] luthier::address_t getEntryPoint() const;
 
   /// Returns a pointer to the kernel descriptor, given the kernel object
@@ -137,10 +142,12 @@ struct KernelDescriptor {
   /// \param KernelObject obtained from the \c kernel_object field in the
   /// \c hsa_kernel_dispatch_packet_t
   /// \return the kernel descriptor of the <tt>KernelObject</tt>
+  /// 给定内核调度数据包的 kernel_object 字段，返回指向内核描述符的指针
   static const KernelDescriptor *fromKernelObject(uint64_t KernelObject);
 
   /// \return a const reference to the KD's \c hsa::LoadedCodeObjectKernel on
   /// success, or an \c llvm::Error if the KD is invalid
+  /// 成功时返回 KD 的 \c hsa::LoadedCodeObjectKernel 的常量引用，如果 KD 无效则返回 \c llvm::Error
   [[nodiscard]] llvm::Expected<std::unique_ptr<LoadedCodeObjectKernel>>
   getLoadedCodeObjectKernelSymbol(
       const ApiTableContainer<::CoreApiTable> &CoreApi,

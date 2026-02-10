@@ -1,12 +1,9 @@
 //===-- InjectedPayloadPEIPass.h --------------------------------*- C++ -*-===//
+// InjectedPayloadPEIPass.h 注入负载PEI传递头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +15,8 @@
 /// This file describes Luthier's Injected Payload Prologue and Epilogue
 /// insertion pass, which replaces the normal prologues and epilogues insertion
 /// by the CodeGen pipeline.
+/// 此文件描述 Luthier 的注入负载序言和尾声插入传递，它替换了 CodeGen 流水线的
+/// 正常序言和尾声插入
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_TOOLING_INJECTED_PAYLOAD_PEI_PASS_H
 #define LUTHIER_TOOLING_INJECTED_PAYLOAD_PEI_PASS_H

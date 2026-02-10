@@ -1,12 +1,9 @@
 //===-- MIRConvenience.h ----------------------------------------*- C++ -*-===//
+// MIRConvenience.h MIR 便捷函数头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +14,7 @@
 /// \file
 /// This file contains a set of high-level convenience functions used to write
 /// MIR instructions.
+/// 此文件包含一组高级便捷函数，用于编写 MIR 指令
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_TOOLING_MIR_CONVENIENCE_H
 #define LUTHIER_TOOLING_MIR_CONVENIENCE_H
@@ -32,16 +30,20 @@ namespace luthier {
 
 /// Swaps the value between \p ScrSGPR and \p DestSGPR by inserting 3
 /// <tt>S_XOR_B32</tt>s before \p InsertionPoint
+/// 通过在 \p InsertionPoint 之前插入 3 条 <tt>S_XOR_B32</tt> 指令来交换 \p ScrSGPR 和 \p DestSGPR 之间的值
 void emitSGPRSwap(llvm::MachineBasicBlock::iterator InsertionPoint,
                   llvm::MCRegister SrcSGPR, llvm::MCRegister DestSGPR);
 
 /// Swaps the value between \p ScrVGPR and \p DestVGPR by inserting 3
 /// <tt>V_XOR_B32_e32</tt>s before \p InsertionPoint
+/// 通过在 \p InsertionPoint 之前插入 3 条 <tt>V_XOR_B32_e32</tt> 指令来交换 \p ScrVGPR 和 \p DestVGPR 之间的值
 void emitVGPRSwap(llvm::MachineBasicBlock::iterator InsertionPoint,
                   llvm::MCRegister SrcVGPR, llvm::MCRegister DestVGPR);
 
 /// Emits an instruction that flips the exec mask before \p MI
 /// Clobbers the SCC bit
+/// 在 \p MI 之前发出翻转 exec 掩码的指令
+/// 会破坏 SCC 位
 void emitExecMaskFlip(llvm::MachineBasicBlock::iterator MI);
 
 void emitMoveFromVGPRToVGPR(llvm::MachineBasicBlock::iterator MI,
@@ -77,6 +79,11 @@ void emitMoveFromVGPRLaneToSGPR(llvm::MachineBasicBlock::iterator MI,
 /// array that allows flipping the exec mask without clobbering the
 /// \c SCC bit and not requiring temporary registers
 /// \returns the iterator where all paths emitted converge together
+/// 生成一组 MBB，确保 \c llvm::AMDGPU::SCC 位不会因为 \p MIBuilder 在插入点 \p MI
+/// 之前构建的指令序列而被破坏
+/// 这是在加载和存储状态值数组时使用的常见模式，允许翻转 exec 掩码而不破坏
+/// \c SCC 位，也不需要临时寄存器
+/// \returns 所有发出的路径汇聚在一起的迭代器
 llvm::MachineBasicBlock::iterator createSCCSafeSequenceOfMIs(
     llvm::MachineBasicBlock::iterator MI,
     const std::function<void(llvm::MachineBasicBlock &,

@@ -1,12 +1,9 @@
 //===-- ExecutableSymbol.h ---------------------------------------*- C++-*-===//
+// ExecutableSymbol.h HSA 可执行文件符号头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +14,7 @@
 /// \file
 /// Defines a set of commonly used functionality for the
 /// \c hsa_executable_symbol_t handle in HSA.
+/// 定义 HSA 中 \c hsa_executable_symbol_t 句柄常用功能集
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_EXECUTABLE_SYMBOL_H
 #define LUTHIER_HSA_EXECUTABLE_SYMBOL_H
@@ -86,6 +84,7 @@ executableSymbolGetAgent(const ApiTableContainer<::CoreApiTable> &CoreApi,
 
 //===----------------------------------------------------------------------===//
 // LLVM DenseMapInfo, for insertion into LLVM-based containers
+// 用于插入到 LLVM 容器的 LLVM DenseMapInfo
 //===----------------------------------------------------------------------===//
 
 template <> struct llvm::DenseMapInfo<hsa_executable_symbol_t> {
@@ -113,6 +112,7 @@ template <> struct llvm::DenseMapInfo<hsa_executable_symbol_t> {
 //===----------------------------------------------------------------------===//
 // C++ std library function objects for hashing and comparison, for insertion
 // into stl container
+// 用于插入到 STL 容器的 C++ std 库哈希和比较函数对象
 //===----------------------------------------------------------------------===//
 
 namespace std {

@@ -1,12 +1,9 @@
 //===-- ISA.h ---------------------------------------------------*- C++ -*-===//
+// ISA.h HSA 指令集架构头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +13,7 @@
 ///
 /// \file
 /// Defines commonly used functionality around the \c hsa_isa_t type in HSA.
+/// 定义 HSA 中 \c hsa_isa_t 类型常用功能
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_ISA_H
 #define LUTHIER_HSA_ISA_H
@@ -116,6 +114,7 @@ isaGetSubTargetFeatures(const ApiTableContainer<::CoreApiTable> &CoreApi,
 
 //===----------------------------------------------------------------------===//
 // LLVM DenseMapInfo, for insertion into LLVM-based containers
+// 用于插入到 LLVM 容器的 LLVM DenseMapInfo
 //===----------------------------------------------------------------------===//
 
 template <> struct llvm::DenseMapInfo<hsa_isa_t> {
@@ -141,6 +140,7 @@ template <> struct llvm::DenseMapInfo<hsa_isa_t> {
 //===----------------------------------------------------------------------===//
 // C++ std library function objects for hashing and comparison, for insertion
 // into stl container
+// 用于插入到 STL 容器的 C++ std 库哈希和比较函数对象
 //===----------------------------------------------------------------------===//
 
 namespace std {

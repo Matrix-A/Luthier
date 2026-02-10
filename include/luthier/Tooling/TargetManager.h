@@ -1,12 +1,9 @@
 //===-- TargetManager.h - Luthier's LLVM Target Management  -----*- C++ -*-===//
+// TargetManager.h Luthier LLVM 目标管理头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +15,8 @@
 /// This file describes Luthier's Target Manager, a singleton in charge of
 /// initializing and finalizing the LLVM library, as well as creating
 /// target description objects for each ISA.
+/// 此文件描述 Luthier 的目标管理器，这是一个单例类，负责初始化和终结 LLVM 库，
+/// 以及为每个 ISA 创建目标描述对象
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_TOOLING_TARGET_MANAGER_H
 #define LUTHIER_TOOLING_TARGET_MANAGER_H
@@ -98,6 +97,8 @@ public:
 /// among different components of Luthier (e.g. CodeLifter, CodeGenerator)
 /// Initializes the AMDGPU LLVM target upon construction, and shuts down LLVM
 /// on destruction
+/// \brief 负责创建和管理 Luthier 不同组件之间共享的 LLVM 构造
+/// 在构造时初始化 AMDGPU LLVM 目标，并在析构时关闭 LLVM
 class TargetManager : public Singleton<TargetManager> {
 private:
   mutable std::unordered_map<hsa_isa_t, TargetInfo> LLVMTargetInfo{};
@@ -106,10 +107,12 @@ private:
 
 public:
   /// Initializes the AMDGPU LLVM target
+  /// 初始化 AMDGPU LLVM 目标
   explicit TargetManager(const rocprofiler::HsaApiTableSnapshot<::CoreApiTable>
                              &CoreApiTableSnapshot);
 
   /// Default destructor; Destroys all Target descriptors and shuts down LLVM
+  /// 默认析构函数；销毁所有目标描述符并关闭 LLVM
   ~TargetManager() override;
 
   llvm::Expected<const TargetInfo &> getTargetInfo(hsa_isa_t Isa) const;
@@ -124,6 +127,7 @@ public:
   /// \return a unique pointer managing the newly-created
   /// <tt>llvm::GCNTargetMachine</tt>, or an \c llvm::Error if the process
   /// fails
+  /// 给定 \p ISA 和 <tt>TargetOptions</tt>，创建 \c llvm::GCNTargetMachine
   llvm::Expected<std::unique_ptr<llvm::GCNTargetMachine>>
   createTargetMachine(hsa_isa_t ISA,
                       const llvm::TargetOptions &TargetOptions = {}) const;

@@ -1,12 +1,9 @@
 //===-- AqlPacket.h - HSA AQL Packet POD Wrapper ----------------*- C++ -*-===//
+// AqlPacket.h HSA AQL 数据包 POD 包装器头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +15,7 @@
 /// This file describes the \c luthier::hsa::AqlPacket struct,
 /// a plain-old-data struct that provides an abstraction over the
 /// HSA AQL packet.
+/// 此文件描述 \c luthier::hsa::AqlPacket 结构体，一个提供 HSA AQL 数据包抽象的纯数据结构
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_AQL_PACKET_H
 #define LUTHIER_HSA_AQL_PACKET_H
@@ -26,6 +24,7 @@
 namespace luthier::hsa {
 
 /// \brief AMD Vendor Packet struct
+/// AMD 供应商数据包结构体
 typedef struct {
   uint16_t Header;
   uint8_t Format;
@@ -34,6 +33,7 @@ typedef struct {
 
 /// \brief POD struct to provide an abstraction over HSA AQL packets as well
 /// as some convenience methods to convert them to their specific type
+/// POD 结构体，提供 HSA AQL 数据包的抽象以及一些将其转换为特定类型的便捷方法
 struct AqlPacket {
   /// Generic packet struct
   struct {
@@ -45,6 +45,7 @@ struct AqlPacket {
 
   /// \return the type of the packet
   /// \sa hsa_packet_type_t
+  /// 返回数据包的类型
   [[nodiscard]] hsa_packet_type_t getPacketType() const {
     return static_cast<hsa_packet_type_t>(
         (Packet.Header >> HSA_PACKET_HEADER_TYPE) &

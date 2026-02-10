@@ -1,12 +1,9 @@
 //===-- LoadedCodeObjectVariable.h - LCO Variable Symbol --------*- C++ -*-===//
+// LoadedCodeObjectVariable.h LCO 变量符号头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +15,8 @@
 /// This file defines the \c LoadedCodeObjectVariable under the
 /// \c luthier::hsa namespace, which represents all device variable symbols
 /// inside a <tt>hsa::LoadedCodeObject</tt>.
+/// 此文件在 \c luthier::hsa 命名空间下定义 \c LoadedCodeObjectVariable，
+/// 它表示 <tt>hsa::LoadedCodeObject</tt> 内部的所有设备变量符号
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_LOADED_CODE_OBJECT_VARIABLE_H
 #define LUTHIER_LOADED_CODE_OBJECT_VARIABLE_H
@@ -27,6 +26,7 @@ namespace luthier::hsa {
 
 /// \brief a \c LoadedCodeObjectSymbol of type
 /// \c LoadedCodeObjectSymbol::ST_DEVICE_FUNCTION
+/// 类型为 \c LoadedCodeObjectSymbol::SK_VARIABLE 的 \c LoadedCodeObjectSymbol
 class LoadedCodeObjectVariable final : public LoadedCodeObjectSymbol {
 
 private:
@@ -36,6 +36,10 @@ private:
   /// cached internally by Luthier
   /// \param ExecutableSymbol the \c hsa_executable_symbol_t equivalent of
   /// the variable symbol, if exists
+  /// 构造函数
+  /// \param LCO 符号所属的 \c hsa_loaded_code_object_t
+  /// \param VarSymbol 变量的符号，由 Luthier 内部缓存
+  /// \param ExecutableSymbol 变量符号的 \c hsa_executable_symbol_t 等效项（如果存在）
   LoadedCodeObjectVariable(
       hsa_loaded_code_object_t LCO,
       luthier::object::AMDGCNObjectFile &StorageElf,
@@ -53,6 +57,7 @@ public:
          llvm::object::ELFSymbolRef VarSymbol);
 
   /// method for providing LLVM RTTI
+  /// 提供 LLVM RTTI 的方法
   [[nodiscard]] static bool classof(const LoadedCodeObjectSymbol *S) {
     return S->getType() == SK_VARIABLE;
   }

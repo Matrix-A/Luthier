@@ -1,12 +1,9 @@
 //===-- Agent.h -------------------------------------------------*- C++ -*-===//
+// Agent.h HSA 代理句柄功能头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +14,7 @@
 /// \file
 /// Defines a set of commonly used functionality for the \c hsa_agent_t handle
 /// in HSA.
+/// 定义 HSA 中 \c hsa_agent_t 句柄常用功能集
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_AGENT_H
 #define LUTHIER_HSA_AGENT_H
@@ -32,6 +30,7 @@ namespace luthier::hsa {
 /// \param [out] ISAList list of ISAs supported by the Agent
 /// \return \c llvm::Error indicating the success or failure of the operation
 /// \sa hsa_agent_iterate_isas
+/// 查询 \p Agent 支持的所有 <tt>hsa_isa_t</tt>
 llvm::Error
 agentGetSupportedISAs(const ApiTableContainer<::CoreApiTable> &CoreApi,
                       hsa_agent_t Agent,
@@ -45,6 +44,7 @@ agentGetSupportedISAs(const ApiTableContainer<::CoreApiTable> &CoreApi,
 /// <tt>Agent</tt>. If the callback doesn't return a success error value, it
 /// will halt the iteration, and the error will be returned
 /// \return \c llvm::Error indication the success or failure of the operation
+/// 迭代 \p Agent 支持的 \c hsa_isa_t 列表并调用 \p Callback
 llvm::Error
 agentIterateISAs(const ApiTableContainer<::CoreApiTable> &CoreApi,
                  hsa_agent_t Agent,
@@ -68,6 +68,7 @@ llvm::Expected<std::optional<hsa_isa_t>> agentFindFirstISA(
 
 //===----------------------------------------------------------------------===//
 // LLVM DenseMapInfo, for insertion into LLVM-based containers
+// 用于插入到 LLVM 容器的 LLVM DenseMapInfo
 //===----------------------------------------------------------------------===//
 
 template <> struct llvm::DenseMapInfo<hsa_agent_t> {
@@ -94,6 +95,7 @@ template <> struct llvm::DenseMapInfo<hsa_agent_t> {
 //===----------------------------------------------------------------------===//
 // C++ std library function objects for hashing and comparison, for insertion
 // into stl container
+// 用于插入到 STL 容器的 C++ std 库哈希和比较函数对象
 //===----------------------------------------------------------------------===//
 
 namespace std {

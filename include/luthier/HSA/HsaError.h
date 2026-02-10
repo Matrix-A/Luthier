@@ -1,12 +1,9 @@
 //===-- HsaError.h ----------------------------------------------*- C++ -*-===//
+// HsaError.h HSA 错误头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +14,7 @@
 /// \file
 /// Defines a \c llvm::ErrorInfo for holding information regarding
 /// issues encountered with using HSA APIs.
+/// 定义 \c llvm::ErrorInfo 以保存使用 HSA API 时遇到的问题信息
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_HSA_ERROR_H
 #define LUTHIER_HSA_HSA_ERROR_H

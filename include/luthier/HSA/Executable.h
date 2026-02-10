@@ -1,12 +1,9 @@
 //===-- Executable.h ---------------------------------------------*- C++-*-===//
+// Executable.h HSA 可执行文件头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +14,7 @@
 /// \file
 /// Defines a set of commonly used functionality for the \c hsa_executable_t
 /// handle in HSA.
+/// 定义 HSA 中 \c hsa_executable_t 句柄常用功能集
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_EXECUTABLE_H
 #define LUTHIER_HSA_EXECUTABLE_H
@@ -44,6 +42,7 @@ namespace luthier::hsa {
 /// \sa hsa_executable_create_alt
 /// \sa hsa_profile_t
 /// \sa hsa_default_float_rounding_mode_t
+/// 创建新的 \c hsa_executable_t 句柄
 llvm::Expected<hsa_executable_t>
 executableCreate(const ApiTableContainer<::CoreApiTable> &CoreApi,
                  hsa_profile_t Profile = HSA_PROFILE_FULL,
@@ -64,6 +63,7 @@ executableCreate(const ApiTableContainer<::CoreApiTable> &CoreApi,
 /// runtime source code for a complete list of options
 /// \return Expects the newly created \c hsa_loaded_code_object_t on success
 /// \sa hsa_executable_load_agent_code_object
+/// 将 \p Reader 读取的代码对象加载到 <tt>Agent</tt> 的内存中
 llvm::Expected<hsa_loaded_code_object_t> executableLoadAgentCodeObject(
     const ApiTableContainer<::CoreApiTable> &CoreApi, hsa_executable_t Exec,
     hsa_code_object_reader_t Reader, hsa_agent_t Agent,
@@ -91,6 +91,7 @@ llvm::Error executableDefineExternalAgentGlobalVariable(
 /// it is not present in this method's arguments
 /// \return \c llvm::Error indicating the success or failure of the operation
 /// \sa hsa_executable_freeze
+/// 冻结 \p Exec 句柄
 llvm::Error executableFreeze(const ApiTableContainer<::CoreApiTable> &CoreApi,
                              hsa_executable_t Exec);
 
@@ -99,6 +100,7 @@ llvm::Error executableFreeze(const ApiTableContainer<::CoreApiTable> &CoreApi,
 /// \param Exec the \c hsa_executable_t being destroyed
 /// \return \c llvm::Error indicating the success of failure of the operation
 /// \sa hsa_executable_destroy
+/// 销毁可执行文件句柄
 llvm::Error executableDestroy(const ApiTableContainer<::CoreApiTable> &CoreApi,
                               hsa_executable_t Exec);
 
@@ -106,6 +108,7 @@ llvm::Error executableDestroy(const ApiTableContainer<::CoreApiTable> &CoreApi,
 /// \param CoreApi the HSA ::CoreApi table container used to perform HSA calls
 /// \param Exec the \c hsa_executable_t being queried
 /// \return \c llvm::Error indicating the success or failure of the operation
+/// 查询包装的 \c hsa_executable_t 的 \c hsa_profile_t
 llvm::Expected<hsa_profile_t>
 executableGetProfile(const ApiTableContainer<::CoreApiTable> &CoreApi,
                      hsa_executable_t Exec);
@@ -205,6 +208,7 @@ inline bool operator==(const hsa_executable_t &Lhs,
 
 //===----------------------------------------------------------------------===//
 // LLVM DenseMapInfo, for insertion into LLVM-based containers
+// 用于插入到 LLVM 容器的 LLVM DenseMapInfo
 //===----------------------------------------------------------------------===//
 
 template <> struct llvm::DenseMapInfo<hsa_executable_t> {
@@ -232,6 +236,7 @@ template <> struct llvm::DenseMapInfo<hsa_executable_t> {
 //===----------------------------------------------------------------------===//
 // C++ std library function objects for hashing and comparison, for insertion
 // into stl container
+// 用于插入到 STL 容器的 C++ std 库哈希和比较函数对象
 //===----------------------------------------------------------------------===//
 
 namespace std {

@@ -1,12 +1,9 @@
 //===-- LoadedCodeObject.h --------------------------------------*- C++ -*-===//
+// LoadedCodeObject.h HSA 加载代码对象头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,6 +27,12 @@
 /// in the ROCm stack. ROCr does not even allow using Loaded Code Objects with
 /// program allocations. Therefore, it is safe to assume all Loaded Code Objects
 /// are backed by a \c hsa_agent_t of type <tt>HSA_DEVICE_TYPE_GPU</tt>.
+/// 定义 HSA 中 \c hsa_loaded_code_object_t 句柄类型的常用功能集，假设如下：
+/// 1. 尽管 ROCr HSA 供应商加载器 API（<tt><hsa/hsa_ven_amd_loader.h></tt>）承认存在文件支持
+/// 和内存支持的加载代码对象，但只有内存支持的对象真正实现。因此，API 不包括查询存储类型和查询存储的 FD。
+/// Luthier 假设所有加载代码对象都具有内存存储以返回其关联的 ELF。如果在加载器中实现了文件支持存储，则需要更新代码。
+/// 2. 程序加载代码对象已被弃用，在 ROCm 堆栈中不使用。ROCr 甚至不允许将加载代码对象与程序分配一起使用。
+/// 因此，可以安全地假设所有加载代码对象都由 <tt>HSA_DEVICE_TYPE_GPU</tt> 类型的 \c hsa_agent_t 支持。
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_LOADED_CODE_OBJECT_H
 #define LUTHIER_HSA_LOADED_CODE_OBJECT_H
@@ -47,6 +50,7 @@ namespace luthier::hsa {
 /// \param LCO the \c hsa_loaded_code_object_t being queried
 /// \return Expects the \c hsa_executable_t of \p LCO on success
 /// \sa HSA_VEN_AMD_LOADER_LOADED_CODE_OBJECT_INFO_EXECUTABLE
+/// 查询包含 \p LCO 的 \c hsa_executable_t
 template <typename LoaderTableType = hsa_ven_amd_loader_1_01_pfn_t>
 [[maybe_unused]] [[nodiscard]] llvm::Expected<hsa_executable_t>
 loadedCodeObjectGetExecutable(LoaderTableType &LoaderApiTable,
@@ -70,6 +74,7 @@ loadedCodeObjectGetExecutable(LoaderTableType &LoaderApiTable,
 /// therefore, are backed by an HSA GPU Agent
 /// \return Expects the \c hsa_agent_t of the \p LCO on success
 /// \sa HSA_VEN_AMD_LOADER_LOADED_CODE_OBJECT_INFO_AGENT
+/// 查询与 \p LCO 关联的 \c hsa_agent_t
 template <typename LoaderTableType = hsa_ven_amd_loader_1_03_pfn_t>
 [[nodiscard]] llvm::Expected<hsa_agent_t>
 loadedCodeObjectGetAgent(const LoaderTableType &LoaderApiTable,
@@ -90,6 +95,7 @@ loadedCodeObjectGetAgent(const LoaderTableType &LoaderApiTable,
 /// \param LCO the \c hsa_loaded_code_object_t being queried
 /// \return Expects the Load Delta of this Loaded Code Object on success
 /// \sa HSA_VEN_AMD_LOADER_LOADED_CODE_OBJECT_INFO_LOAD_DELTA
+/// 查询 \p LCO 的加载增量
 template <typename LoaderTableType = hsa_ven_amd_loader_1_01_pfn_t>
 [[nodiscard]] llvm::Expected<long>
 loadedCodeObjectGetLoadDelta(const LoaderTableType &LoaderApiTable,
@@ -112,6 +118,7 @@ loadedCodeObjectGetLoadDelta(const LoaderTableType &LoaderApiTable,
 /// this code object has been loaded onto on success
 /// \sa HSA_VEN_AMD_LOADER_LOADED_CODE_OBJECT_INFO_LOAD_BASE
 /// \sa HSA_VEN_AMD_LOADER_LOADED_CODE_OBJECT_INFO_LOAD_SIZE
+/// 查询 \p LCO 的整个已加载内存范围
 template <typename LoaderTableType = hsa_ven_amd_loader_1_01_pfn_t>
 [[nodiscard]] llvm::Expected<llvm::ArrayRef<uint8_t>>
 loadedCodeObjectGetLoadedMemory(LoaderTableType &LoaderApiTable,
@@ -140,6 +147,7 @@ loadedCodeObjectGetLoadedMemory(LoaderTableType &LoaderApiTable,
 /// \return Expects the URI describing the origins of the \p LCO
 /// \sa HSA_VEN_AMD_LOADER_LOADED_CODE_OBJECT_INFO_URI_LENGTH
 /// \sa HSA_VEN_AMD_LOADER_LOADED_CODE_OBJECT_INFO_URI
+/// 查询描述 \p LCO 来源的 URI
 template <typename LoaderTableType = hsa_ven_amd_loader_1_01_pfn_t>
 [[nodiscard]] llvm::Expected<std::string>
 loadedCodeObjectGetURI(LoaderTableType &LoaderApiTable,
@@ -170,6 +178,7 @@ loadedCodeObjectGetURI(LoaderTableType &LoaderApiTable,
 /// \param LCO the \c hsa_loaded_code_object_t being queried
 /// \return Expects the \c llvm::ArrayRef pointing to the beginning and the
 /// end of the storage memory on success
+/// 查询 <tt>LCO</tt> 的 ELF 主机副本的存储位置及其大小
 template <typename LoaderTableType = hsa_ven_amd_loader_1_01_pfn_t>
 [[nodiscard]] llvm::Expected<llvm::ArrayRef<uint8_t>>
 loadedCodeObjectGetStorageMemory(const LoaderTableType &LoaderApiTable,
@@ -201,6 +210,7 @@ loadedCodeObjectGetStorageMemory(const LoaderTableType &LoaderApiTable,
 
 //===----------------------------------------------------------------------===//
 // LLVM DenseMapInfo, for insertion into LLVM-based containers
+// 用于插入到 LLVM 容器的 LLVM DenseMapInfo
 //===----------------------------------------------------------------------===//
 
 template <> struct llvm::DenseMapInfo<hsa_loaded_code_object_t> {
@@ -228,6 +238,7 @@ template <> struct llvm::DenseMapInfo<hsa_loaded_code_object_t> {
 //===----------------------------------------------------------------------===//
 // C++ std library function objects for hashing and comparison, for insertion
 // into stl container
+// 用于插入到 STL 容器的 C++ std 库哈希和比较函数对象
 //===----------------------------------------------------------------------===//
 
 namespace std {

@@ -13,8 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //===----------------------------------------------------------------------===//
-///
+//
 /// \file
+/// \brief 本文件定义了 \c Controller 单例类，负责跟踪所有其他单例，以及在插桩应用程序执行期间调用的不同回调。
 /// This file defines a \c Controller singleton class in charge of keeping
 /// track of all other singletons, as well as different callbacks invoked during
 /// execution of an instrumented application.
@@ -40,19 +41,24 @@ namespace hsa {
 class LoadedCodeObjectCache;
 } // namespace hsa
 
+/// \brief 负责管理 Luthier 中所有其他单例以及 Luthier 与 rocprofiler-sdk 注册的 \c Singleton
 /// \brief a \c Singleton in charge of managing all other singletons in Luthier,
 /// as well as registration of Luthier with rocprofiler-sdk
 class Context : public Singleton<Context> {
 private:
+  /// \c CodeGenerator \c Singleton 实例
   /// \c CodeGenerator \c Singleton instance
   CodeGenerator *CG{nullptr};
 
+  /// \c ToolExecutableLoader \c Singleton 实例
   /// \c ToolExecutableLoader \c Singleton instance
   ToolExecutableLoader *TEL{nullptr};
 
+  /// \c CodeLifter \c Singleton 实例
   /// \c CodeLifter \c Singleton instance
   CodeLifter *CL{nullptr};
 
+  /// \c TargetManager \c Singleton 实例
   /// \c TargetManager \c Singleton instance
   TargetManager *TM{nullptr};
 
@@ -68,6 +74,7 @@ private:
   rocprofiler::HsaExtensionTableSnapshot<HSA_EXTENSION_AMD_LOADER>
       *VenLoaderSnapshot{nullptr};
 
+  /// \c hsa::ExecutableBackedObjectsCache \c Singleton 实例
   /// \c hsa::ExecutableBackedObjectsCache \c Singleton instance
   hsa::LoadedCodeObjectCache *CodeObjectCache{nullptr};
 

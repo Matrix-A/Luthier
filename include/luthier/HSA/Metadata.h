@@ -1,12 +1,9 @@
 //===-- Metadata.h - Metadata Struct for HSA COV3+ --------------*- C++ -*-===//
+// Metadata.h HSA COV3+ 元数据头文件
 // Copyright 2022-2025 @ Northeastern University Computer Architecture Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 您可以在遵守许可证的情况下使用此文件
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +15,8 @@
 /// Defines the Metadata structs and enums used by Luthier to
 /// parse the code object metadata into an easy-access form, as well as an
 /// analysis pass for parsing the metadata during lifting.
+/// 定义 Luthier 使用的元数据结构和枚举，用于将代码对象元数据解析为易访问的形式，
+/// 以及用于在提升过程中解析元数据的分析过程
 //===----------------------------------------------------------------------===//
 #ifndef LUTHIER_HSA_AMDGPU_METADATA_H
 #define LUTHIER_HSA_AMDGPU_METADATA_H
@@ -100,10 +99,14 @@ enum class KernelKind : uint8_t { Normal, Init, Fini };
 //===----------------------------------------------------------------------===//
 // Kernel Metadata.
 //===----------------------------------------------------------------------===//
+// 内核元数据
+//===----------------------------------------------------------------------===//
 namespace Kernel {
 
 //===----------------------------------------------------------------------===//
 // Kernel Argument Metadata.
+//===----------------------------------------------------------------------===//
+// 内核参数元数据
 //===----------------------------------------------------------------------===//
 namespace Arg {
 
@@ -137,6 +140,7 @@ constexpr char IsPipe[] = "is_pipe";
 } // end namespace Key
 
 /// In-memory representation of kernel argument metadata.
+/// 内核参数元数据的内存表示
 struct Metadata final {
   /// Name. Optional.
   std::optional<std::string> Name{std::nullopt};
@@ -224,6 +228,7 @@ constexpr char UniformWorkgroupSize[] = ".uniform_work_group_size";
 } // end namespace Key
 
 /// In-memory representation of kernel metadata.
+/// 内核元数据的内存表示
 struct Metadata final {
   /// Kernel source name. Required.
   std::string Name{};
@@ -300,6 +305,7 @@ constexpr char Kernels[] = "amdhsa.kernels";
 } // end namespace Key
 
 /// In-memory representation of HSA metadata.
+/// HSA 元数据的内存表示
 struct Metadata final {
   /// HSA metadata version. Required.
   amdgpu::hsamd::Version Version;
@@ -316,6 +322,10 @@ struct Metadata final {
 /// mappings inside a set of maps with static lifetime, we instead
 /// follow the general design paradigm of Luthier and put them inside an
 /// object here so that we can more control over their lifetime.
+/// \brief 负责解析 HSA 代码对象元数据的类
+/// 由于需要定义访问限定符、地址空间、参数值种类和内核种类的字符串名称与枚举之间的映射，
+/// 我们选择将其设计为一个类，而不是在具有静态生存期的一组映射中定义这些映射。
+/// 相反，我们遵循 Luthier 的一般设计范式，将它们放在一个对象中，以便更好地控制其生命周期
 class MetadataParser {
 private:
   const llvm::StringMap<AccessQualifier> AccessQualifierEnumMap = {
@@ -374,14 +384,17 @@ public:
 
   /// Parses the high-level metadata included in the \p Doc
   /// Does not parse the kernels portion of the metadata
+  /// 解析包含在 \p Doc 中的高级元数据，不解析元数据的内核部分
   llvm::Expected<std::unique_ptr<Metadata>>
   parseNoteMetaData(llvm::msgpack::Document &Doc) const;
 
   /// Parses the all the kernels metadata included in the \p Doc
+  /// 解析包含在 \p Doc 中的所有内核元数据
   llvm::Expected<llvm::StringMap<std::unique_ptr<Kernel::Metadata>>>
   parseAllKernelsMetadata(llvm::msgpack::Document &Doc) const;
 
   /// Parses the kernel metadata of \p KernelName in \p Doc
+  /// 解析 \p Doc 中 \p KernelName 的内核元数据
   llvm::Expected<std::unique_ptr<Kernel::Metadata>>
   parseKernelMetadata(llvm::msgpack::Document &Doc,
                       llvm::StringRef KernelName) const;
